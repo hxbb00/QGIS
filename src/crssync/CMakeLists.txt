@@ -1,3 +1,4 @@
+set(CMAKE_VERBOSE_MAKEFILE ON)
 if (NATIVE_CRSSYNC_BIN)
   add_custom_target(synccrsdb
     COMMENT "Running native crssync"
