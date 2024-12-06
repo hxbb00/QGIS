@@ -29,7 +29,7 @@ ELSE(QSCINTILLA_VERSION_STR)
   else()
     set(QSCINTILLA_PATH_SUFFIXES qt)
   endif()
-  
+
   set(QSCINTILLA_LIBRARY_NAMES
     qscintilla2-${QT_VERSION_BASE_LOWER}
     qscintilla2_${QT_VERSION_BASE_LOWER}
@@ -47,6 +47,7 @@ ELSE(QSCINTILLA_VERSION_STR)
       $ENV{LIB_DIR}/lib
       /usr/local/lib
       /usr/local/lib/${QT_VERSION_BASE_LOWER}
+      /usr/lib/x86_64-linux-gnu/${QT_VERSION_BASE_LOWER}
       /usr/lib
   )
 
@@ -62,6 +63,7 @@ ELSE(QSCINTILLA_VERSION_STR)
       ${${QT_VERSION_BASE}Core_INCLUDE_DIRS}
       "${QT_INCLUDE_DIR}"
       $ENV{LIB_DIR}/include
+      /usr/include/x86_64-linux-gnu/${QT_VERSION_BASE_LOWER}
       /usr/local/include
       /usr/include
     PATH_SUFFIXES ${QSCINTILLA_PATH_SUFFIXES}
