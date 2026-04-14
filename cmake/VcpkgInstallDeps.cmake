@@ -140,11 +140,10 @@ if(NOT EMSCRIPTEN)
 "@echo off
 cd /d \"%~dp0\"
 set CURRENT_WORK_DIR=%cd%
-python -u \"%CURRENT_WORK_DIR%\\${py_name}.py\" %*
+python -u \"%CURRENT_WORK_DIR%\\Scripts\\${py_name}.py\" %*
 "
     )
     
-    list(APPEND BUNDLED_PROGRAMS "${FILE}.py")
     list(APPEND BUNDLED_PROGRAMS "${bat_file}")
     endforeach()
   else()
