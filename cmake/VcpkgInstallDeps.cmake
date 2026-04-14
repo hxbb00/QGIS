@@ -129,14 +129,13 @@ if(NOT EMSCRIPTEN)
     "bin/pct2rgb"
     "bin/rgb2pct"
   )
+  list(TRANSFORM BUNDLED_PROGRAMS PREPEND "${VCPKG_BASE_DIR}/")
+  list(TRANSFORM PYTHON_SCRIPTS PREPEND "${VCPKG_BASE_DIR}/")
   if(MSVC)
-    list(TRANSFORM BUNDLED_PROGRAMS PREPEND "${VCPKG_BASE_DIR}/" APPEND ".exe")
-    list(TRANSFORM PYTHON_SCRIPTS PREPEND "${VCPKG_BASE_DIR}/")
-    foreach(FILE ${PYTHON_SCRIPTS})
-      list(APPEND BUNDLED_PROGRAMS "${FILE}.py")
-      
+    list(TRANSFORM BUNDLED_PROGRAMS APPEND ".exe")
+    foreach(FILE ${PYTHON_SCRIPTS})      
       get_filename_component(py_name ${FILE} NAME_WE)
-      set(bat_file "${FILE}.bat")
+      set(bat_file "${CMAKE_BINARY_DIR}/bundled_program/${py_name}.bat")
       file(WRITE "${bat_file}"
 "@echo off
 cd /d \"%~dp0\"
@@ -144,17 +143,16 @@ set CURRENT_WORK_DIR=%cd%
 python -u \"%CURRENT_WORK_DIR%\\${py_name}.py\" %*
 "
     )
-
+    
+    list(APPEND BUNDLED_PROGRAMS "${FILE}.py")
     list(APPEND BUNDLED_PROGRAMS "${bat_file}")
     endforeach()
   else()
-    list(TRANSFORM BUNDLED_PROGRAMS PREPEND "${VCPKG_BASE_DIR}/")
-    list(TRANSFORM PYTHON_SCRIPTS PREPEND "${VCPKG_BASE_DIR}/")
     foreach(FILE ${PYTHON_SCRIPTS})
       fixup_shebang("${FILE}" OUTPUT_FILE)
-      list(APPEND BUNDLED_PROGRAMS "${OUTPUT_FILE}")
-
       fixup_shebang("${FILE}.py" PY_OUTPUT_FILE)
+
+      list(APPEND BUNDLED_PROGRAMS "${OUTPUT_FILE}")
       list(APPEND BUNDLED_PROGRAMS "${PY_OUTPUT_FILE}")
     endforeach()
   endif()
